@@ -11,8 +11,8 @@ get_header();
         <div style="margin-top:8px;font-size:1.2rem;opacity:0.95;">عمادة المكتبات — جامعة البحر الاحمر</div>
         <p style="margin-top:18px;max-width:720px;line-height:1.6;">مرحباً بكم في مكتبتنا الرقمية: تصفح الكتب الجامعية، حمّل الملفات، واحفظ مفضلاتك للرجوع السريع.</p>
         <div style="margin-top:20px;">
-            <a href="/index.php/book" class="library-hero-cta">تصفح الكتب</a>
-            <a href="/wp-login.php?action=register" class="library-hero-cta" style="background:transparent;border:1px solid #fff;margin-right:12px;">سجل الآن</a>
+            <a href="/index.php/book" class="library-hero-cta" role="button" aria-label="تصفح الكتب">تصفح الكتب</a>
+            <a href="/wp-login.php?action=register" class="library-hero-cta" style="background:transparent;border:1px solid #fff;margin-right:12px;" role="button" aria-label="سجل الآن">سجل الآن</a>
         </div>
     </div>
 </div>
@@ -31,7 +31,10 @@ get_header();
                 <a href="<?php echo esc_url( get_permalink( $b->ID ) ); ?>"><img src="<?php echo esc_url( $thumb ); ?>" alt="<?php echo esc_attr( get_the_title( $b->ID ) ); ?>" style="width:100%;height:auto;border-radius:6px;"/></a>
                 <h3 style="font-size:1rem;margin:10px 0;"><?php echo esc_html( get_the_title( $b->ID ) ); ?></h3>
                 <div style="font-size:0.9rem;color:#666;margin-bottom:8px;"><?php echo esc_html( get_post_meta( $b->ID, '_book_year', true ) ); ?></div>
-                <div><?php echo library_favorite_button( $b->ID ); ?> <?php echo library_render_pdf_button( get_post_meta( $b->ID, '_book_pdf', true ), $b->ID ); ?></div>
+                <div style="display:flex;gap:8px;justify-content:center;">
+                    <?php echo library_favorite_button( $b->ID ); ?>
+                    <?php echo library_render_pdf_button( get_post_meta( $b->ID, '_book_pdf', true ), $b->ID ); ?>
+                </div>
             </div>
             <?php
         }

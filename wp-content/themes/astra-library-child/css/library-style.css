@@ -38,3 +38,10 @@
 
 /* Improve CTA hover */
 .library-hero-cta:hover{opacity:.92;transform:translateY(-2px);transition:all .12s ease}
+
+/* Accessible focus state for buttons */
+.library-hero-cta:focus{outline:3px solid rgba(255,255,255,0.18);outline-offset:3px}
+
+/* Button and card color adjustments to match university palette */
+.library-hero-cta{background:var(--uni-accent);box-shadow:0 6px 18px rgba(0,122,61,0.12)}
+.book-card{border:1px solid rgba(0,0,0,0.04)}
