@@ -23,3 +23,18 @@
 
 /* Ensure header spacing does not collide with theme header */
 .library-univ-header { position:relative; z-index:9999; }
+
+/* Responsive hero and book cards */
+.library-hero { padding:48px 12px; }
+.library-hero h1{font-size:2.4rem}
+@media (max-width:720px){
+	.library-hero{padding:28px 12px}
+	.library-hero h1{font-size:1.8rem}
+	.book-card{width:45%}
+}
+@media (max-width:420px){
+	.book-card{width:100%}
+}
+
+/* Improve CTA hover */
+.library-hero-cta:hover{opacity:.92;transform:translateY(-2px);transition:all .12s ease}
