@@ -1,0 +1,68 @@
+name: Assistant Automate PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Feature branch to create PR from'
+        required: true
+        default: 'feature/homepage-polish'
+      base:
+        description: 'Base branch to merge into'
+        required: true
+        default: 'main'
+  push:
+    branches:
+      - 'feature/homepage-polish'
+
+jobs:
+  create-and-merge:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create or get PR and optionally merge
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.DEPLOY_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const branch = core.getInput('branch') || process.env.INPUT_BRANCH || '${{ github.event.inputs.branch || github.ref_name }}';
+            const base = core.getInput('base') || process.env.INPUT_BASE || '${{ github.event.inputs.base || 'main' }}';
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Normalize branch name when triggered by push
+            let head = branch;
+            if (head.startsWith('refs/heads/')) head = head.replace('refs/heads/', '');
+
+            // Check for existing PR
+            const pulls = await github.rest.pulls.list({ owner, repo, head: `${owner}:${head}`, base });
+            let pr = null;
+            if (pulls.data && pulls.data.length > 0) {
+              pr = pulls.data[0];
+              core.info(`Found existing PR #${pr.number}`);
+            } else {
+              // Read PR body if available
+              let body = '';
+              try { body = fs.readFileSync('PR_BODY.md', 'utf8'); } catch (e) { body = 'Automated PR created by assistant workflow.'; }
+              const newpr = await github.rest.pulls.create({ owner, repo, title: `Automated: Merge ${head} → ${base}`, head, base, body });
+              pr = newpr.data;
+              core.info(`Created PR #${pr.number}`);
+            }
+
+            // Attempt merge
+            try {
+              const mergeRes = await github.rest.pulls.merge({ owner, repo, pull_number: pr.number, commit_title: `Merge PR #${pr.number} (${head})` });
+              if (mergeRes.status === 200) {
+                core.info(`Merged PR #${pr.number}`);
+              } else {
+                core.info(`Merge attempted, status: ${mergeRes.status}`);
+              }
+            } catch (err) {
+              core.warning(`Merge failed: ${err.message}`);
+            }
+
+            return { pr_number: pr.number };
