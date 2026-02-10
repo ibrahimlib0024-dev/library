@@ -1,0 +1,29 @@
+
+
+# BEGIN WordPress
+# التعليمات (الأسطر) بين "BEGIN WordPress" و "END WordPress"
+# تم إنشاؤها ديناميكيًا، ويجب تعديلها فقط من خلال مرشحات ووردبريس (WordPress Filters).
+# أي تغييرات على التعليمات بين هذه العلامات سيتم الكتابة فوقها.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /library/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /library/index.php [L]
+</IfModule>
+
+# END WordPress
+
+# Begin AIOWPSEC Firewall
+	<IfModule mod_php5.c>
+		php_value auto_prepend_file 'C:/xampp/htdocs/library/aios-bootstrap.php'
+	</IfModule>
+	<IfModule mod_php7.c>
+		php_value auto_prepend_file 'C:/xampp/htdocs/library/aios-bootstrap.php'
+	</IfModule>
+	<IfModule mod_php.c>
+		php_value auto_prepend_file 'C:/xampp/htdocs/library/aios-bootstrap.php'
+	</IfModule>
+# End AIOWPSEC Firewall

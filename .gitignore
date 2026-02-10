@@ -1,0 +1,17 @@
+/.idea
+/node_modules
+/vendor
+/composer.lock
+/package-lock.json
+/yarn.lock
+/npm-debug.log
+/*.log
+/wp-content/uploads/
+/wp-content/ai1wm-backups/
+/.env
+/wp-config-local.php
+/wp-config.php
+/.vscode
+/.DS_Store
+Thumbs.db
+/.cache
