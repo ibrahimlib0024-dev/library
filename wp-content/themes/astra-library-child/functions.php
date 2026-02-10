@@ -186,6 +186,8 @@ add_action( 'save_post', 'library_save_book_meta' );
 function library_enqueue_scripts() {
     // Frontend script
     wp_enqueue_script( 'library-scripts', get_stylesheet_directory_uri() . '/js/library-scripts.js', array( 'jquery' ), '1.0', true );
+    // Styles
+    wp_enqueue_style( 'library-styles', get_stylesheet_directory_uri() . '/css/library-style.css', array(), '1.0' );
     wp_localize_script( 'library-scripts', 'LibraryAjax', array(
         'ajax_url' => admin_url( 'admin-ajax.php' ),
         'nonce'    => wp_create_nonce( 'library-ajax-nonce' ),
@@ -270,6 +272,23 @@ function library_favorite_button( $book_id ) {
     }
     return '<button data-book-id="' . intval( $book_id ) . '" class="' . esc_attr( $class ) . '">' . esc_html( $text ) . '</button>';
 }
+
+/**
+ * Helper: render PDF download button, integrating with Download Monitor if available.
+ * If $pdf_meta is numeric, treat as Download Monitor ID and render shortcode if plugin exists.
+ */
+function library_render_pdf_button( $pdf_meta, $book_id = 0 ) {
+    if ( empty( $pdf_meta ) ) return '';
+    // If numeric and Download Monitor shortcode available, use it
+    if ( is_numeric( $pdf_meta ) && shortcode_exists( 'download' ) ) {
+        return do_shortcode( '[download id="' . intval( $pdf_meta ) . '"]' );
+    }
+    // Otherwise treat as URL
+    $url = esc_url( $pdf_meta );
+    $label = __( 'Download PDF', 'astra-library-child' );
+    return '<a class="button library-download" href="' . $url . '" target="_blank" rel="noopener noreferrer">' . esc_html( $label ) . '</a>';
+}
+
 
 /**
  * Include `book` CPT in regular search queries

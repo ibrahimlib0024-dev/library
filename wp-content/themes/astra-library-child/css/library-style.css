@@ -1,0 +1,25 @@
+/* Library UI styles */
+.library-fav-button{display:inline-block;padding:8px 12px;background:#0073aa;color:#fff;border-radius:4px;border:none;cursor:pointer}
+.library-fav-button.active{background:#d54e21}
+.library-download{display:inline-block;padding:8px 12px;background:#2ea2cc;color:#fff;border-radius:4px;text-decoration:none}
+.library-rating{margin-top:12px}
+.library-rating-stars a.library-rate-star{margin-right:6px;text-decoration:none;font-weight:bold;color:#bbb;font-size:18px;display:inline-block;padding:4px 6px;border-radius:4px}
+.library-rating-stars a.library-rate-star.hover, .library-rating-stars a.library-rate-star:hover{color:#f5b301;transform:scale(1.12)}
+.library-rating-stars a.library-rate-star.active{color:#f5b301}
+.book-card{transition:box-shadow .15s ease;border:1px solid #eee}
+.book-card:hover{box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+
+@media (max-width:720px){
+	.book-card{flex-direction:column}
+	.book-card img{max-width:100%}
+}
+.library-rating-avg{margin-bottom:8px;font-style:italic}
+
+/* Kadence / homepage overrides for RTL and hero */
+.kb-large-banner.kb-starter-intro { direction: rtl; text-align: right; }
+.kb-large-banner.kb-starter-intro .kb-large-banner__left { padding-right: 96px; padding-left: 48px; }
+.kb-large-banner.kb-starter-intro .kb-large-banner__content h1, .kb-large-banner.kb-starter-intro .kb-large-banner__content h2 { font-family: 'Tajawal', sans-serif; }
+.library-hero-cta { background: var(--uni-accent); color: #fff; padding: 12px 20px; border-radius:8px; display:inline-block; margin-top:12px; }
+
+/* Ensure header spacing does not collide with theme header */
+.library-univ-header { position:relative; z-index:9999; }

@@ -26,9 +26,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                         <?php echo library_favorite_button( $book_id ); ?>
                     </div>
                     <div style="margin-top:8px;">
-                        <?php if ( $pdf ) : ?>
-                            <a class="button" href="<?php echo esc_url( $pdf ); ?>" target="_blank"><?php _e( 'Download PDF', 'astra-library-child' ); ?></a>
-                        <?php endif; ?>
+                        <?php echo library_render_pdf_button( $pdf, $book_id ); ?>
                     </div>
                 </div>
                 <div class="book-right">
@@ -46,11 +44,12 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                         $count = intval( get_post_meta( $book_id, '_rating_count', true ) );
                         $sum = intval( get_post_meta( $book_id, '_rating_sum', true ) );
                         $avg = $count ? round( $sum / $count, 2 ) : 0;
+                        $rounded = $count ? round( $sum / $count ) : 0;
                         ?>
                         <div class="library-rating-avg"><?php echo sprintf( __( 'Average: %s (%d)', 'astra-library-child' ), $avg, $count ); ?></div>
-                        <div class="library-rating-stars">
-                            <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-                                <a href="#" class="library-rate-star" data-book-id="<?php echo $book_id; ?>" data-value="<?php echo $i; ?>"><?php echo $i; ?>★</a>
+                        <div class="library-rating-stars" aria-label="Rating">
+                            <?php for ( $i = 1; $i <= 5; $i++ ) : $active = ($i <= $rounded) ? ' active' : ''; ?>
+                                <a href="#" class="library-rate-star<?php echo $active; ?>" data-book-id="<?php echo $book_id; ?>" data-value="<?php echo $i; ?>">★</a>
                             <?php endfor; ?>
                         </div>
                     </div>
